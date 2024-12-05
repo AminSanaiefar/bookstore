@@ -6,7 +6,8 @@
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <p>Welcome <b>{{ user.username }}</b>
-                <button type="submit">Logout</button>
+                <button type="submit" class="btn btn-warning">Logout</button>
+                <a href="{% url 'password_change' %}" class="btn btn-primary">change password</a>
             </p>
         </form>
     {% else %}
