@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+{% load crispy_forms_filters %}
+{% block title %}حذف کتاب {{ book.title }}"{% endblock %}
+{% block content %}
+    <form action="" method="post">
+        <div class="container mt-3">
+            {% csrf_token %}
+            <h4>از حذف کتاب <b>"{{ book.title }}"</b> اطمینان دارید؟</h4>
+            <button type="submit" class="btn btn-danger">بله! حذف</button>
+        </div>
+    </form>
+{% endblock %}

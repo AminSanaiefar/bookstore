@@ -8,4 +8,5 @@
         <p>{{ book.price }}</p>
         <a href="{{ book.get_absolute_url }}">بیشتر</a>
 	{% endfor %}
+    <br><br><a href="{% url 'book_create' %}" class="btn btn-success">تعریف کتاب جدید</a>
 {% endblock %}
