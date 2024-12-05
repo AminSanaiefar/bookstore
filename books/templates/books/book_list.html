@@ -6,6 +6,6 @@
         <p>{{ book.author }}</p>
         <p>{{ book.description }}</p>
         <p>{{ book.price }}</p>
+        <a href="{{ book.get_absolute_url }}">بیشتر</a>
 	{% endfor %}
-	
 {% endblock %}
