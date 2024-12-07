@@ -1,17 +1,35 @@
 {% extends '_base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}خانه{% endblock %}
 {% block content %}
-    <h1>Home Page</h1>
-    {% if user.is_authenticated %}
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <p>Welcome <b>{{ user.username }}</b>
-                <button type="submit" class="btn btn-warning">Logout</button>
-                <a href="{% url 'password_change' %}" class="btn btn-primary">change password</a>
-            </p>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}">Log In</a> | <a href="{% url 'signup' %}">Sign Up</a>
-    {% endif %}
-    <a href="{% url 'book_list' %}" class="btn btn-primary">کتاب ها</a>
+
+    <div class="container mt-4">
+        <div class="row flex-row-reverse justify-content-md-center">
+            {% for book in books %}
+
+                <div class="card m-2" style="max-width: 45%">
+                    <div class="row g-0 h-100" dir="rtl">
+                        <div class="col-md-4">
+                            <img src="https://cdn.fidibo.com/phoenixpub/content/ef214bc8-66aa-49b9-a837-da034e4aa3fa/4d03caed-3452-4244-8935-fe55fa091e94.jpg?width=192"
+                                 class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8 h-100">
+                            <div class="d-flex flex-column justify-content-between h-100">
+                                <div class="card-body">
+                                    <h3 class="card-title"><strong>{{ book.title }}</strong></h3>
+                                    <p class="card-text pt-3">{{ book.description|truncatewords:25|linebreaks }}</p>
+                                    <p class="text-muted">نویسنده: {{ book.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="{{ book.get_absolute_url }}"><button class="btn btn-primary" type="button">نمایش</button></a>
+                        <button class="btn btn-outline-primary mb-3 mt-2" type="button">اشتراک گذاری</button>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
