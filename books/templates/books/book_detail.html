@@ -1,9 +1,9 @@
 {% extends '_base.html' %}
 {% block title %}کتاب {{ book.title }}{% endblock %}
 {% block content %}
-	<h1>نام: {{ book.title }}</h1>
-    <h4>نویسنده: {{ book.author }}</h4>
-    <p>توضیحات: {{ book.description }}</p>
+	<h1>نام: {{ book.title|capfirst }}</h1>
+    <h4>نویسنده: {{ book.author|title }}</h4>
+    <p>توضیحات: {{ book.description|linebreaks }}</p>
     <p>قیمت: {{ book.price }}</p>
     <a href="{% url 'book_update' book.id %}" class="btn btn-warning">ویرایش</a>
     <a href="{% url 'book_delete' book.id %}" class="btn btn-danger">حذف</a>

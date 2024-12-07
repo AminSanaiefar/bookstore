@@ -5,9 +5,12 @@ from .models import Book
 
 
 class BookListView(generic.ListView):
-    model = Book
+    # model = Book
     template_name = 'books/book_list.html'
     context_object_name = 'books'
+
+    def get_queryset(self):
+        return Book.objects.all().order_by('-id')
 
 
 class BookDetailView(generic.DetailView):
