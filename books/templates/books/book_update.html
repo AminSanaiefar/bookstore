@@ -2,11 +2,11 @@
 {% load crispy_forms_filters %}
 {% block title %}ویرایش کتاب {{ form.title.value }}{% endblock %}
 {% block content %}
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="container mt-3">
             {% csrf_token %}
             {{ form|crispy }}
-            <button type="submit" class="btn btn-primary">ثبت ویرایش</button>
+            <button type="submit" class="btn btn-primary">ویرایش</button>
         </div>
     </form>
 {% endblock %}

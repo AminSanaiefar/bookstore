@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-9">
                 <div class="card shadow my-3">
-                    <h5 class="card-header bg-success text-light px-5">فرم</h5>
+                    <h5 class="card-header bg-success text-light px-5">تعریف کتاب جدید</h5>
                     <div class="px-5 pt-3 pb-5">
-                        <form action="" method="post">
+                        <form action="" method="post" enctype="multipart/form-data">
                             <div class="container mt-3">
                                 {% csrf_token %}
                                 {{ form|crispy }}
