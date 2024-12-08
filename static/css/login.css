@@ -8,7 +8,7 @@
 }
 
 .line-with-middle-sep span {
-    background-color: white;
+    background-color:#212529 ;
     padding: 0 10px;position: relative;
     top: 8px;
 }
