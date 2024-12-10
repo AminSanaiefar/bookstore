@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}کتاب {{ book.title }}{% endblock %}
 {% block content %}
     <div class="container mt-5" dir="rtl">
@@ -37,15 +38,32 @@
 
                 <div class="d-flex justify-content-center">
                     <div class="card shadow my-3 p-5 w-sm-75 w-100">
-                        <h2 class="mb-5">نظرات:</h2>
+                        <h2 class="mb-5">نظرات کاربران:</h2>
                         {% if comments %}
                             {% for comment in comments %}
-                                <div class="card shadow border-bottom mb-3">
-                                    <h5 class="mx-2"><span class="text-info-emphasis">{{ comment.user.username }}</span></h5>
-                                    <p class="mx-2">{{ comment.text|linebreaks }}</p>
+                                <div class="card shadow mt-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <span>
+                                                کاربر: <span
+                                                    class="text-info-emphasis">{{ comment.user.username }}</span>
+                                            </span>
+                                        </h5>
+                                        <div class="card mt-1">
+                                            <div class="card-header">متن نظر:</div>
+                                            <div class="card-body">
+                                                <div class="card-text">
+                                                    <h6 class="card-text"><br>{{ comment.text|linebreaks }}<br></h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-muted text-center" dir="ltr">
+                                        {{ comment.datetime_create|date:"j F Y" }}-{{ comment.datetime_create|date:"f A" }}
+                                    </div>
                                 </div>
                             {% endfor %}
-                            {% else %}
+                        {% else %}
                             <h4 class="text-info-emphasis">هنوز نظری ثبت نشده است</h4>
                         {% endif %}
                     </div>
@@ -56,25 +74,13 @@
                         <h3>نظر خود را وارد کنید:</h3>
                         {% if user.is_authenticated %}
                             <form method="POST">
-                                <div class="form-group py-2">
-                                    <label class="py-1" for="author_name">نام شما:</label>
-                                    {% if user.is_authenticated %}
-                                        <input type="text" class="form-control" placeholder="{{ user.username }}" name="author_name">
-                                    {% endif %}
-                                </div>
-                                <div class="form-group py-2">
-                                    <label class="py-1" for="email">ایمیل شما:</label>
-                                    <input type="email" class="form-control" placeholder="example@gmail.com" name="email">
-                                </div>
-                                <div class="form-group py-2">
-                                    <label class="py-1" for="comment_text">متن نظر:</label>
-                                    <textarea class="form-control" name="text" rows="3"
-                                              placeholder="نظر خود را اینجا وارد کنید."></textarea>
-                                </div>
+                                {% csrf_token %}
+                                {{ comment_form|crispy }}
                                 <button type="submit" class="btn btn-primary">ارسال</button>
                             </form>
-                        {% else  %}
-                            <p><span class="text-danger"> قبل از ارسال نظر وارد اکانت خودتون بشید! </span><a href="{% url 'login' %}">ورود به اکانت</a></p>
+                        {% else %}
+                            <p><span class="text-danger"> قبل از ارسال نظر وارد اکانت خودتون بشید! </span><a
+                                    href="{% url 'login' %}">ورود به اکانت</a></p>
                         {% endif %}
                     </div>
                 </div>

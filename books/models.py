@@ -22,6 +22,8 @@ class Comment(models.Model):
     datetime_create = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     book = models.ForeignKey(Book, related_name='comments', on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
+    is_recommend = models.BooleanField(default=True)
 
     def __str__(self):
         return self.text

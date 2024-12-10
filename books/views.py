@@ -5,6 +5,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 
 from .models import Book, Comment
+from .forms import CommentForm
 
 
 class StaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
@@ -26,7 +27,21 @@ class BookDetailView(generic.DetailView):
 def book_detail_view(request, pk):
     book = get_object_or_404(Book, pk=pk)
     comments = book.comments.all()
-    return render(request, 'books/book_detail.html', context={'book': book, 'comments': comments})
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.book = book
+            new_comment.user = request.user
+            new_comment.save()
+            comment_form = CommentForm()
+    else:
+        comment_form = CommentForm()
+    return render(request, 'books/book_detail.html', context={
+        'book': book,
+        'comments': comments,
+        'comment_form': comment_form,
+    })
 
 
 class BookCreateView(StaffRequiredMixin, generic.CreateView):
