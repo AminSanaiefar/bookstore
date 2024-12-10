@@ -41,27 +41,42 @@
                         <h2 class="mb-5">نظرات کاربران:</h2>
                         {% if comments %}
                             {% for comment in comments %}
-                                <div class="card shadow mt-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <span>
-                                                کاربر: <span
-                                                    class="text-info-emphasis">{{ comment.user.username }}</span>
-                                            </span>
-                                        </h5>
-                                        <div class="card mt-1">
-                                            <div class="card-header">متن نظر:</div>
-                                            <div class="card-body">
-                                                <div class="card-text">
-                                                    <h6 class="card-text"><br>{{ comment.text|linebreaks }}<br></h6>
+                                {% if comment.is_active %}
+                                    <div class="card shadow mt-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <span>
+                                                    کاربر: <span
+                                                        class="text-info-emphasis">{{ comment.user.username }}</span>
+                                                </span>
+                                                {% if comment.is_recommend %}
+                                                    <span>
+                                                        <img src="{% static 'icons/like_100px.png' %}"
+                                                             class="img-fluid rounded-start" alt="error"
+                                                             width="30" height="30">
+                                                    </span>
+                                                {% else %}
+                                                    <span>
+                                                        <img src="{% static 'icons/unlike_100px.png' %}"
+                                                             class="img-fluid rounded-start" alt="error"
+                                                            width="30" height="30">
+                                                    </span>
+                                                {% endif %}
+                                            </h5>
+                                            <div class="card mt-1">
+                                                <div class="card-header">متن نظر:</div>
+                                                <div class="card-body">
+                                                    <div class="card-text">
+                                                        <h6 class="card-text"><br>{{ comment.text|linebreaks }}<br></h6>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="card-footer text-muted text-center" dir="ltr">
+                                            {{ comment.datetime_create|date:"j F Y" }}-{{ comment.datetime_create|date:"f A" }}
+                                        </div>
                                     </div>
-                                    <div class="card-footer text-muted text-center" dir="ltr">
-                                        {{ comment.datetime_create|date:"j F Y" }}-{{ comment.datetime_create|date:"f A" }}
-                                    </div>
-                                </div>
+                                {% endif %}
                             {% endfor %}
                         {% else %}
                             <h4 class="text-info-emphasis">هنوز نظری ثبت نشده است</h4>

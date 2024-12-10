@@ -60,8 +60,7 @@ class BookUpdateView(StaffRequiredMixin, generic.UpdateView):
     context_object_name = 'form'
 
 
-class BookDeleteView(generic.DeleteView):
+class BookDeleteView(StaffRequiredMixin, generic.DeleteView):
     model = Book
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy("home")
-
