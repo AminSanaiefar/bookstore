@@ -44,23 +44,41 @@ def book_detail_view(request, pk):
     })
 
 
-class BookCreateView(StaffRequiredMixin, generic.CreateView):
-    PERMISSION_NAME = 'Book/Create'
+class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Book
     fields = ['title', 'description', 'author', 'price', 'book_cover']
     template_name = 'books/book_create.html'
     context_object_name = 'form'
 
+    def handle_no_permission(self):
+        return HttpResponse("<h1>403 Forbidden</h1> You Dont Have Permission To <b>Create Book</b>!")
 
-class BookUpdateView(StaffRequiredMixin, generic.UpdateView):
-    PERMISSION_NAME = 'Book/Update'
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Book
     fields = ['title', 'description', 'author', 'price', 'book_cover']
     template_name = 'books/book_update.html'
     context_object_name = 'form'
 
+    def handle_no_permission(self):
+        return HttpResponse("<h1>403 Forbidden</h1> You Dont Have Permission To <b>Update Book</b>!")
 
-class BookDeleteView(StaffRequiredMixin, generic.DeleteView):
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user
+
+
+class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Book
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy("home")
+
+    def handle_no_permission(self):
+        return HttpResponse("<h1>403 Forbidden</h1> You Dont Have Permission To <b>Update Book</b>!")
+
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user
